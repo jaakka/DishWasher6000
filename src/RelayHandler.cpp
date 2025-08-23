@@ -12,53 +12,53 @@ RelayHandler::RelayHandler() :
 {}
 
 // Valve
-void RelayHandler::ValveOn() { 
-    if(!safetyHandler_ || !safetyHandler_->SafeModeIsActive()) {
+void RelayHandler::valveOn() { 
+    if(safetyHandler_ && !safetyHandler_->safeModeIsActive()) {
         valve_.on(); 
     }
 }
-void RelayHandler::ValveOff()   { valve_.off(); }
-bool RelayHandler::ValveActive() const { return valve_.isActive(); }
+void RelayHandler::valveOff()   { valve_.off(); }
+bool RelayHandler::valveActive() const { return valve_.isActive(); }
 
 // Pump
-void RelayHandler::PumpOn() { 
-    if(!safetyHandler_ || !safetyHandler_->SafeModeIsActive()) {
+void RelayHandler::pumpOn() { 
+    if(safetyHandler_ && !safetyHandler_->safeModeIsActive()) {
         pump_.on(); 
     }
 }
-void RelayHandler::PumpOff()    { pump_.off(); }
-bool RelayHandler::PumpActive() const { return pump_.isActive(); }
+void RelayHandler::pumpOff()    { pump_.off(); }
+bool RelayHandler::pumpActive() const { return pump_.isActive(); }
 
 // Wash
-void RelayHandler::WashOn() { 
-    if(!safetyHandler_ || !safetyHandler_->SafeModeIsActive()) {
+void RelayHandler::washOn() { 
+    if(safetyHandler_ && !safetyHandler_->safeModeIsActive()) {
         wash_.on(); 
     }
 }
-void RelayHandler::WashOff()    { wash_.off(); }
-bool RelayHandler::WashActive() const { return wash_.isActive(); }
+void RelayHandler::washOff()    { wash_.off(); }
+bool RelayHandler::washActive() const { return wash_.isActive(); }
 
 // Heat
-void RelayHandler::HeatOn() { 
-    if(!safetyHandler_ || !safetyHandler_->SafeModeIsActive()) {
+void RelayHandler::heatOn() { 
+    if(safetyHandler_ && !safetyHandler_->safeModeIsActive()) {
         heat_.on(); 
     }
 }
-void RelayHandler::HeatOff()    { heat_.off(); }
-bool RelayHandler::HeatActive() const { return heat_.isActive(); }
+void RelayHandler::heatOff()    { heat_.off(); }
+bool RelayHandler::heatActive() const { return heat_.isActive(); }
 
 // Soap
-void RelayHandler::SoapOn() { 
-    if(!safetyHandler_ || !safetyHandler_->SafeModeIsActive()) {
+void RelayHandler::soapOn() { 
+    if(safetyHandler_ && !safetyHandler_->safeModeIsActive()) {
         soap_.on(); 
     }
 }
-void RelayHandler::SoapOff()    { soap_.off(); }
-bool RelayHandler::SoapActive() const { return soap_.isActive(); }
+void RelayHandler::soapOff()    { soap_.off(); }
+bool RelayHandler::soapActive() const { return soap_.isActive(); }
 
 // Power
-void RelayHandler::PowerOff()   { power_.off(); }
+void RelayHandler::powerOff()   { power_.off(); }
 
-void RelayHandler::AddSafetyHandler(SafetyHandler* safetyHandler) {
+void RelayHandler::addSafetyHandler(SafetyHandler* safetyHandler) {
     safetyHandler_ = safetyHandler;
 }

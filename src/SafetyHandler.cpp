@@ -1,54 +1,56 @@
 #include "SafetyHandler.h"
 
 SafetyHandler::SafetyHandler(SensorHandler& sensors, RelayHandler& relays)
-    : sensors_(sensors), relays_(relays), safeModeActive_(false) {}
+    : sensors_(sensors), relays_(relays) {
+        safeModeActive_ = false;
+    }
 
-void SafetyHandler::ActivateSafeMode(ErrorCode reason) {
+void SafetyHandler::activateSafeMode(ErrorCode reason) {
     // Save error code later
     safeModeActive_ = true;
-    relays_.ValveOff();
-    relays_.PumpOff();
-    relays_.WashOff();
-    relays_.HeatOff();
-    relays_.SoapOff();
-    if(!VerifySafeMode()) {
-        EmergencyShutdown();
+    relays_.valveOff();
+    relays_.pumpOff();
+    relays_.washOff();
+    relays_.heatOff();
+    relays_.soapOff();
+    if(!verifySafeMode()) {
+        emergencyShutdown();
     }
 }
 
-bool SafetyHandler::SafeModeIsActive() const {
+bool SafetyHandler::safeModeIsActive() const {
     return safeModeActive_;
 }
 
-bool SafetyHandler::VerifySafeMode() const {
-    if(relays_.ValveActive()) return false;
-    if(relays_.PumpActive()) return false;
-    if(relays_.WashActive()) return false;
-    if(relays_.HeatActive()) return false;
-    if(relays_.SoapActive()) return false;
+bool SafetyHandler::verifySafeMode() const {
+    if(relays_.valveActive()) return false;
+    if(relays_.pumpActive()) return false;
+    if(relays_.washActive()) return false;
+    if(relays_.heatActive()) return false;
+    if(relays_.soapActive()) return false;
     return true;
 }
 
-void SafetyHandler::EmergencyShutdown() {
-    relays_.PowerOff();
+void SafetyHandler::emergencyShutdown() {
+    relays_.powerOff();
 }
 
-void SafetyHandler::SafetyLoop() {
-    if(sensors_.FloodDetected()) {
-        ActivateSafeMode(ErrorCode::Flood);
-    } else if (sensors_.OverheatDetected() && relays_.HeatActive()) {
-        ActivateSafeMode(ErrorCode::Overheat);
-    } else if (sensors_.DoorIsOpen() && relays_.PumpActive()) {
-        ActivateSafeMode(ErrorCode::DoorOpenAndWashActive);
+void SafetyHandler::safetyLoop() {
+    if(sensors_.floodDetected()) {
+        activateSafeMode(ErrorCode::Flood);
+    } else if (sensors_.overheatDetected() && relays_.heatActive()) {
+        activateSafeMode(ErrorCode::Overheat);
+    } else if (sensors_.doorIsOpen() && relays_.pumpActive()) {
+        activateSafeMode(ErrorCode::DoorOpenAndWashActive);
     }
 }
 
-bool SafetyHandler::ErrorSavedInMemory() const {
+bool SafetyHandler::errorSavedInMemory() const {
     // Add later error memory
     return false;
 }
 
-ErrorCode SafetyHandler::ReadLastRunErrorCode() const {
+ErrorCode SafetyHandler::readLastRunErrorCode() const {
     // Add later error memory
     return ErrorCode::Unknown;    
 }

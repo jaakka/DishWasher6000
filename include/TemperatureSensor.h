@@ -5,18 +5,17 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-class TemperatureSensor : public Sensor {
+class TemperatureSensor {
   public:
     TemperatureSensor();
-    void loop() override;
-    bool getSensorState() override { return false; };
-    float getSensorValue() override;
+    void loop();
+    float getTemperature() const;
 
   private:
     OneWire oneWire;              
     DallasTemperature dallasTemperature;
     float temperatures[10];
-    float calcAverageTemperature();
+    float calcAverageTemperature() const;
     void addTemperature(float temp);
 };
 

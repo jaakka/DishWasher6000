@@ -1,0 +1,9 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define SOAP_TIME_IN_S 5
+#define WATER_MAX_FILLTIME_IN_S 20
+#define WATER_EMPTY_TIME_IN_S 10
+#define MAX_TOTAL_HEAT_TIME_IN_M 20 
+
+#endif

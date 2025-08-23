@@ -10,29 +10,29 @@ class RelayHandler {
 public:
     RelayHandler();
 
-    void AddSafetyHandler(SafetyHandler* safetyHandler);
+    void addSafetyHandler(SafetyHandler* safetyHandler);
 
-    void ValveOn();
-    void ValveOff();
-    bool ValveActive() const;
+    void valveOn();
+    void valveOff();
+    bool valveActive() const;
 
-    void PumpOn();
-    void PumpOff();
-    bool PumpActive() const;
+    void pumpOn();
+    void pumpOff();
+    bool pumpActive() const;
 
-    void WashOn();
-    void WashOff();
-    bool WashActive() const;
+    void washOn();
+    void washOff();
+    bool washActive() const;
 
-    void HeatOn();
-    void HeatOff();
-    bool HeatActive() const;
+    void heatOn();
+    void heatOff();
+    bool heatActive() const;
 
-    void SoapOn();
-    void SoapOff();
-    bool SoapActive() const;
+    void soapOn();
+    void soapOff();
+    bool soapActive() const;
 
-    void PowerOff();
+    void powerOff();
 
 private:
     Relay valve_, pump_, wash_, heat_, power_, soap_;

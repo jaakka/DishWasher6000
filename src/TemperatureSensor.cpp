@@ -9,12 +9,12 @@ void TemperatureSensor::loop() {
     addTemperature(dallasTemperature.getTempCByIndex(0));
 }
 
-float TemperatureSensor::getSensorValue() {
+float TemperatureSensor::getTemperature() const {
     //y = 1.4263x - 14.558
     return 1.4263 * calcAverageTemperature() - 14.558;
 }
 
-float TemperatureSensor::calcAverageTemperature() {
+float TemperatureSensor::calcAverageTemperature() const {
     float sum = 0;
     for(int i = 0; i < 10; i++) {
         sum += temperatures[i];

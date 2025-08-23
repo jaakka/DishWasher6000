@@ -14,18 +14,18 @@ enum class ErrorCode {
 class SafetyHandler {
 public:
     SafetyHandler(SensorHandler& sensors, RelayHandler& relays);
-    void ActivateSafeMode(ErrorCode reason);
-    bool SafeModeIsActive() const;
-    void SafetyLoop();
-    void EmergencyShutdown();
-    bool ErrorSavedInMemory() const;
-    ErrorCode ReadLastRunErrorCode() const;
+    void activateSafeMode(ErrorCode reason);
+    bool safeModeIsActive() const;
+    void safetyLoop();
+    void emergencyShutdown();
+    bool errorSavedInMemory() const;
+    ErrorCode readLastRunErrorCode() const;
 
 private:
     SensorHandler& sensors_;
     RelayHandler& relays_;
     bool safeModeActive_;
-    bool VerifySafeMode() const;
+    bool verifySafeMode() const;
 };
 
 #endif
