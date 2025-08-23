@@ -9,7 +9,7 @@ public:
     bool isActive() const;
 
 private:
-    int relay_pin;
+    int pin_;
 };
 
 #endif

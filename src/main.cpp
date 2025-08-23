@@ -4,9 +4,11 @@
 #include "SensorHandler.h"
 
 RelayHandler relayHandler;
+SensorHandler sensorHandler;
+SafetyHandler safetyHandler(sensorHandler, relayHandler);
 
 void setup() {
-
+    relayHandler.AddSafetyHandler(&safetyHandler);
 }
 
 void loop() {

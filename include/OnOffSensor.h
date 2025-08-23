@@ -7,7 +7,7 @@ public:
     bool isOn() const;
 
 private:
-    int sensor_pin;
+    int pin_;
 };
 
 #endif

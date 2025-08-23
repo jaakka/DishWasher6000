@@ -14,7 +14,7 @@ public:
     bool WaterIsMaxLevel() const;
 
 private:
-    OnOffSensor quality, door, overheat, flood, level;
+    OnOffSensor quality_, door_, overheat_, flood_, level_;
 };
 
 #endif

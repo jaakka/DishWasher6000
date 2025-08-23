@@ -1,19 +1,19 @@
 #include "Relay.h"
 #include <Arduino.h>
 
-Relay::Relay(int pin) : relay_pin(pin) {
-    pinMode(relay_pin, OUTPUT); 
-    digitalWrite(relay_pin, LOW);
+Relay::Relay(int pin) : pin_(pin) {
+    pinMode(pin_, OUTPUT); 
+    digitalWrite(pin_, LOW);
 }
 
 void Relay::on() {
-    digitalWrite(relay_pin, HIGH);
+    digitalWrite(pin_, HIGH);
 }
 
 void Relay::off() {
-    digitalWrite(relay_pin, LOW);
+    digitalWrite(pin_, LOW);
 }
 
 bool Relay::isActive() const {
-    return digitalRead(relay_pin) == HIGH;
+    return digitalRead(pin_) == HIGH;
 }

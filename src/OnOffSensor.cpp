@@ -1,10 +1,10 @@
 #include "OnOffSensor.h"
 #include <Arduino.h>
 
-OnOffSensor::OnOffSensor(int pin) : sensor_pin(pin) {
-    pinMode(sensor_pin, INPUT); 
+OnOffSensor::OnOffSensor(int pin) : pin_(pin) {
+    pinMode(pin_, INPUT); 
 }
 
 bool OnOffSensor::isOn() const {
-    return digitalRead(sensor_pin) == HIGH;
+    return digitalRead(pin_) == HIGH;
 }

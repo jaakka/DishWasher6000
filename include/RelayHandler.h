@@ -3,10 +3,14 @@
 
 #include "Relay.h"
 
+class SafetyHandler;
+
 class RelayHandler {
 
 public:
     RelayHandler();
+
+    void AddSafetyHandler(SafetyHandler* safetyHandler);
 
     void ValveOn();
     void ValveOff();
@@ -31,7 +35,8 @@ public:
     void PowerOff();
 
 private:
-    Relay valve, pump, wash, heat, power, soap;
+    Relay valve_, pump_, wash_, heat_, power_, soap_;
+    SafetyHandler* safetyHandler_;
 };
 
 #endif
