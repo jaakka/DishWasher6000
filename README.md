@@ -16,12 +16,13 @@ This is the third version of my Arduino-based dishwasher control project. The fo
 
 ## Images
 
-<img width="760" height="606" alt="dishwasher_board" src="https://github.com/user-attachments/assets/bbfb6a4b-8ca1-49eb-a981-c271754de0cd" />
-<img width="913" height="718" alt="dishwasher_empty_board" src="https://github.com/user-attachments/assets/53f626e0-4d0b-40df-a7f1-2f63a13c3464" />
-<img width="1144" height="733" alt="dishwasher_3d_board" src="https://github.com/user-attachments/assets/2b7cbed5-97cd-4dfa-b8b4-fb732f108571" />
-<img width="811" height="697" alt="dishwasher_3d_top" src="https://github.com/user-attachments/assets/4c30eef8-55a0-4271-b6e0-6c87261ea96b" />
-<img width="831" height="657" alt="dishwasher_circuit" src="https://github.com/user-attachments/assets/b08fc78d-89a1-45ce-899a-64821491d900" />
+Place your images in a folder called `images/` in the project root and use the following syntax to display them:
 
+![dishwasher_board](images/dishwasher_board.jpg)
+![dishwasher_empty_board](images/dishwasher_empty_board.jpg)
+![dishwasher_3d_board](images/dishwasher_3d_board.jpg)
+![dishwasher_3d_top](images/dishwasher_3d_top.jpg)
+![dishwasher_circuit](images/dishwasher_circuit.jpg)
 
 ---
 
