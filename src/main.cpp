@@ -3,8 +3,10 @@
 #include "RelayHandler.h"
 #include "SensorHandler.h"
 
+RelayHandler relayHandler;
+
 void setup() {
-  
+
 }
 
 void loop() {
