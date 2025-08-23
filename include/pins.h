@@ -1,6 +1,8 @@
 #ifndef WIRING_H
 #define WIRING_H
 
+#include <Arduino.h>
+
 // Pin definitions
 #define VALVE_RELAY_PIN 6 // Tested ok
 #define PUMPOUT_RELAY_PIN 5 // Tested ok
