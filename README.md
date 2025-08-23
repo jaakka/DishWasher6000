@@ -24,6 +24,12 @@ Place your images in a folder called `images/` in the project root and use the f
 ![dishwasher_3d_top](images/dishwasher_3d_top.jpg)
 ![dishwasher_circuit](images/dishwasher_circuit.jpg)
 
+## Used libraries
+
+- [OneWire by Paul Stoffregen](https://github.com/PaulStoffregen/OneWire)
+
+- [DallasTemperature by Miles Burton](https://github.com/milesburton/Arduino-Temperature-Control-Library)
+
 ---
 
 Project is under development.
