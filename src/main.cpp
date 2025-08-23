@@ -9,8 +9,9 @@ SafetyHandler safetyHandler(sensorHandler, relayHandler);
 
 void setup() {
     relayHandler.AddSafetyHandler(&safetyHandler);
+    relayHandler.SoapOn();
 }
 
 void loop() {
-  
+    safetyHandler.SafetyLoop();
 }
