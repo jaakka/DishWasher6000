@@ -18,7 +18,7 @@ class ActionsHandler {
 public:
     ActionsHandler(SensorHandler& sensors, RelayHandler& relays);
     int addSoap();
-    int wash(); // Returns remaining time in seconds.
+    int wash(int wash_time_in_minutes); // Returns remaining time in seconds.
     int heat(int target_temperature);
     int fillWater();
     int emptyWater();

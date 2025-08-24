@@ -18,34 +18,54 @@ enum class Program {
 
 int time = 1;
 int program_step = 0;
+int printed_test_time = 0;
+
 Program program = Program::Eco;
 
 void EcoProgram() {
-    switch (program_step)
-    {
-        case 0: {
-            int time = actionsHandler.addSoap();
-            if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
-                program_step++;
+    if(!safetyHandler.safeModeIsActive()) {
+        switch (program_step)
+        {
+            case 0: {
+                time = actionsHandler.fillWater();
+                if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
+                    program_step++;
+                }
             }
-        }
-        break;
-        
-        case 1:
-            delay(1000);
-            program_step++;
-        break;
+            break;
 
-        case 2:
-            time = actionsHandler.addSoap();
-            if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
+            case 1:
+                time = actionsHandler.addSoap();
+                if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
+                    program_step++;
+                }
+            break;
+
+            case 2:
+                time = actionsHandler.wash(1);
+                if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
+                    program_step++;
+                }
+            break;
+
+            case 3:
+                time = actionsHandler.emptyWater();
+                if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
+                    program_step++;
+                }
+            break;
+
+            case 4:
+                Serial.println("Eco program ready.");
                 program_step++;
-            }
-        break;
-            
-        case 3:
-            relayHandler.pumpOn();
-        break;
+            break;
+        }
+    }
+
+    if(printed_test_time != time) {
+        Serial.print("time:");
+        printed_test_time = time;
+        Serial.println(time);
     }
 }
 
@@ -58,6 +78,7 @@ void SuperProgram() {
 }
 
 void setup() {
+    Serial.begin(9600);
     relayHandler.addSafetyHandler(&safetyHandler);
 }
 

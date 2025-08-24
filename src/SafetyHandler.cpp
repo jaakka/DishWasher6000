@@ -40,7 +40,7 @@ void SafetyHandler::safetyLoop() {
         activateSafeMode(ErrorCode::Flood);
     } else if (sensors_.overheatDetected() && relays_.heatActive()) {
         activateSafeMode(ErrorCode::Overheat);
-    } else if (sensors_.doorIsOpen() && relays_.pumpActive()) {
+    } else if (sensors_.doorIsOpen() && relays_.washActive()) {
         activateSafeMode(ErrorCode::DoorOpenAndWashActive);
     }
 }
