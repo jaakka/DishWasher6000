@@ -3,11 +3,17 @@
 #include "RelayHandler.h"
 #include "SensorHandler.h"
 #include "ActionsHandler.h"
+#include "UserControl.h"
+#include "LcdHandler.h"
+#include "ViewHandler.h"
 
 RelayHandler relayHandler;
 SensorHandler sensorHandler;
 SafetyHandler safetyHandler(sensorHandler, relayHandler);
 ActionsHandler actionsHandler(sensorHandler, relayHandler);
+UserControl userControl;
+LcdHandler lcdHandler;
+ViewHandler viewHandler(lcdHandler);
 
 enum class Program {
     NoProgram,
@@ -20,7 +26,17 @@ int time = 1;
 int program_step = 0;
 int printed_test_time = 0;
 
-Program program = Program::Eco;
+Program program = Program::NoProgram;
+
+void setup() {
+    Serial.begin(9600);
+    relayHandler.addSafetyHandler(&safetyHandler);
+    userControl.begin();
+    lcdHandler.begin();
+    viewHandler.bootView();
+    delay(1000); // Animation time
+    viewHandler.selectActionView();
+}
 
 void EcoProgram() {
     if(!safetyHandler.safeModeIsActive()) {
@@ -77,13 +93,23 @@ void SuperProgram() {
     
 }
 
-void setup() {
-    Serial.begin(9600);
-    relayHandler.addSafetyHandler(&safetyHandler);
-}
-
 void loop() {
     safetyHandler.safetyLoop();
+    userControl.loop();
+
+    if(userControl.userScrollLeft())
+    {
+        Serial.println("left");
+    }
+    if(userControl.userScrollRight())
+    {
+        Serial.println("right");
+    }
+    if(userControl.userPress())
+    {
+        Serial.println("press");
+    }
+
     switch (program)
     {
         case Program::Eco:
