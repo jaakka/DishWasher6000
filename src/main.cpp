@@ -6,6 +6,7 @@
 #include "UserControl.h"
 #include "LcdHandler.h"
 #include "ViewHandler.h"
+#include "WlanHandler.h"
 
 RelayHandler relayHandler;
 SensorHandler sensorHandler;
@@ -14,6 +15,7 @@ ActionsHandler actionsHandler(sensorHandler, relayHandler);
 UserControl userControl;
 LcdHandler lcdHandler;
 ViewHandler viewHandler(lcdHandler);
+WlanHandler wlanHandler;
 
 enum class Program {
     NoProgram,
@@ -22,10 +24,13 @@ enum class Program {
     Super
 };
 
+
 int time = 1;
 int program_step = 0;
 int printed_test_time = 0;
+bool lcd_updated = false;
 
+int menu = 0;
 Program program = Program::NoProgram;
 
 void setup() {
@@ -33,9 +38,75 @@ void setup() {
     relayHandler.addSafetyHandler(&safetyHandler);
     userControl.begin();
     lcdHandler.begin();
+    wlanHandler.begin();
     viewHandler.bootView();
     delay(1000); // Animation time
     viewHandler.selectActionView();
+}
+
+void NoProgram() {
+    if(userControl.userScrollRight()) {
+        lcd_updated = false;
+        if(menu<5) {
+            menu++;
+        } else {
+            menu = 1;
+        }
+    } else if(userControl.userScrollLeft()) {
+        lcd_updated = false;
+        if(menu>1) {
+            menu--;
+        } else {
+            menu = 5;
+        }
+    }
+
+    if(userControl.userPress()) {
+        switch (menu)
+        {
+            case 1:
+                program = Program::Eco;
+            break;
+
+            case 2:
+                program = Program::Normal;
+            break;
+
+            case 3:
+                program = Program::Super;
+            break;
+
+            case 4: 
+                relayHandler.powerOff();
+            break;
+        }
+    }
+
+    if(!lcd_updated){
+        switch (menu)
+        {
+            case 1:
+                viewHandler.ecoWash();
+            break;
+
+            case 2:
+                viewHandler.normalWash();
+            break;
+
+            case 3:
+                viewHandler.superWash();
+            break;
+
+            case 4: 
+                viewHandler.mainPower();
+            break;
+
+            case 5:
+                viewHandler.wlanState(wlanHandler.isConnected());
+            break;
+        }
+        lcd_updated = true;
+    }
 }
 
 void EcoProgram() {
@@ -97,21 +168,12 @@ void loop() {
     safetyHandler.safetyLoop();
     userControl.loop();
 
-    if(userControl.userScrollLeft())
-    {
-        Serial.println("left");
-    }
-    if(userControl.userScrollRight())
-    {
-        Serial.println("right");
-    }
-    if(userControl.userPress())
-    {
-        Serial.println("press");
-    }
-
     switch (program)
     {
+        case Program::NoProgram:
+            NoProgram();
+        break;
+
         case Program::Eco:
             EcoProgram();
         break;

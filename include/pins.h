@@ -25,8 +25,8 @@
 #define ENCODER_LEFT_PIN 2
 #define ENCODER_BUTTON_PIN A6
 
-#define WLAN_RX 10
-#define WLAN_TX 11
+#define WLAN_RX 11
+#define WLAN_TX 10
 
 #define LCD_TX 8
 #define LCD_RX -1 // -1 means not used

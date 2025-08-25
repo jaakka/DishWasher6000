@@ -2,16 +2,16 @@
 
 void LcdHandler::SendLcdCommand(String cmd)
 {
-  LcdSerial.print(cmd);
-  LcdSerial.write(0xFF); 
-  LcdSerial.write(0xFF);
-  LcdSerial.write(0xFF);
+  lcdSerial_.print(cmd);
+  lcdSerial_.write(0xFF); 
+  lcdSerial_.write(0xFF);
+  lcdSerial_.write(0xFF);
 }
 
-LcdHandler::LcdHandler() : LcdSerial(LCD_RX, LCD_TX) {
-  LcdSerial.begin(9600);
+LcdHandler::LcdHandler() : lcdSerial_(LCD_RX, LCD_TX) {
+  lcdSerial_.begin(9600);
   SendLcdCommand("baud=115200");
-  LcdSerial.begin(115200);
+  lcdSerial_.begin(115200);
 }
 
 void LcdHandler::begin() {

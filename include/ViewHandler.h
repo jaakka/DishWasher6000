@@ -11,6 +11,8 @@ class ViewHandler {
     void normalWash();
     void superWash();
     void selectActionView();
+    void wlanState(bool connected);
+    void mainPower();
   private:
     LcdHandler& lcdHandler_;
 };

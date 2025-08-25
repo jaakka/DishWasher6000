@@ -36,7 +36,7 @@ class LcdHandler
         void DrawText(TextPosition pos, String text);
 
     private:
-        SoftwareSerial LcdSerial;
+        SoftwareSerial lcdSerial_;
         void SendLcdCommand(String cmd);
         void UpdateImage(int elementId, int imageId);
         void UpdateText(int elementId, String txt);

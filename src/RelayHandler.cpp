@@ -9,7 +9,9 @@ RelayHandler::RelayHandler() :
     heat_(HEATER_RELAY_PIN), 
     power_(POWERCONTROL_RELAY_PIN), 
     soap_(SOAPDOOR_RELAY_PIN)
-{}
+{
+    power_.on();
+}
 
 // Valve
 void RelayHandler::valveOn() { 
