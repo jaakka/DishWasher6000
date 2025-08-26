@@ -13,6 +13,8 @@ class LcdHandler
     public:
         LcdHandler();
         void begin();
+        void startCommunication();
+        void stopCommunication();
         
         void DrawCircleBackground(BgImageLeftBottom image); 
         void DrawCircleBackground(BgImageRightBottom image);

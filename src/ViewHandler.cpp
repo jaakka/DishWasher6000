@@ -39,14 +39,10 @@ void ViewHandler::selectActionView() {
     lcdHandler_.DrawLargeIcon(LargeIcon::RESTART);
 }
 
-void ViewHandler::wlanState(bool connected) {
+void ViewHandler::wlanState(String text = "katkaistu") {
     lcdHandler_.LcdClear();
     lcdHandler_.DrawText(TextPosition::CENTER_TOP, "Wlan");
-    if(connected) {
-        lcdHandler_.DrawText(TextPosition::CENTER_BOTTOM, "yhdistetty");
-    } else {
-        lcdHandler_.DrawText(TextPosition::CENTER_BOTTOM, "katkaistu");
-    }
+    lcdHandler_.DrawText(TextPosition::CENTER_BOTTOM, text);
     lcdHandler_.DrawLargeIcon(LargeIcon::HOME);
 }
 

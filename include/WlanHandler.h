@@ -9,13 +9,17 @@ class WlanHandler
 {
     public:
         WlanHandler();
-        void begin();
+        void setWifi(const String& ssid, const String& password);
+        void setAction(int action);
+        void setTime(int time);
+        void setTotalTime(int total);
+        void setSpecial(const String& special);
         bool isConnected();
+        String getIp();
+        void startCommunication();
+        void stopCommunication();
     private:
         SoftwareSerial wlanSerial_;
-        void sendCommand(const String& cmd);
-        String readResponse();
-        void connectWifi(const String& ssid, const String& password);
 };
 
 #endif

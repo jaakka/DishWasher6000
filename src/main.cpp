@@ -27,18 +27,19 @@ enum class Program {
 
 int time = 1;
 int program_step = 0;
-int printed_test_time = 0;
+int action = 0;
+int printed_time = 0;
+int printed_action = 0;
 bool lcd_updated = false;
 
 int menu = 0;
 Program program = Program::NoProgram;
 
 void setup() {
-    Serial.begin(9600);
+    Serial.begin(115200);
     relayHandler.addSafetyHandler(&safetyHandler);
     userControl.begin();
     lcdHandler.begin();
-    wlanHandler.begin();
     viewHandler.bootView();
     delay(1000); // Animation time
     viewHandler.selectActionView();
@@ -102,7 +103,18 @@ void NoProgram() {
             break;
 
             case 5:
-                viewHandler.wlanState(wlanHandler.isConnected());
+                lcdHandler.stopCommunication();
+                wlanHandler.startCommunication();
+
+                String ip = wlanHandler.getIp();
+                
+                wlanHandler.stopCommunication();
+                lcdHandler.startCommunication();
+                if(ip == ""){
+                    viewHandler.wlanState();
+                }else{
+                    viewHandler.wlanState(ip);
+                }
             break;
         }
         lcd_updated = true;
@@ -115,6 +127,7 @@ void EcoProgram() {
         {
             case 0: {
                 time = actionsHandler.fillWater();
+                action = 1;
                 if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
                     program_step++;
                 }
@@ -123,6 +136,7 @@ void EcoProgram() {
 
             case 1:
                 time = actionsHandler.addSoap();
+                action = 2;
                 if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
                     program_step++;
                 }
@@ -130,6 +144,7 @@ void EcoProgram() {
 
             case 2:
                 time = actionsHandler.wash(1);
+                action = 3;
                 if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
                     program_step++;
                 }
@@ -137,23 +152,20 @@ void EcoProgram() {
 
             case 3:
                 time = actionsHandler.emptyWater();
+                action = 4;
                 if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
                     program_step++;
                 }
             break;
 
             case 4:
+                action = 5;
                 Serial.println("Eco program ready.");
                 program_step++;
             break;
         }
     }
-
-    if(printed_test_time != time) {
-        Serial.print("time:");
-        printed_test_time = time;
-        Serial.println(time);
-    }
+    ProgramInformationUpdate();
 }
 
 void BasicProgram() {
@@ -162,6 +174,40 @@ void BasicProgram() {
 
 void SuperProgram() {
     
+}
+
+void ProgramInformationUpdate() {
+
+    if(printed_time != time) {
+
+        lcdHandler.DrawText(TextPosition::CENTER_TOP,"test");
+        lcdHandler.DrawText(TextPosition::CENTER_BOTTOM,String(time)+"s");
+
+        lcdHandler.stopCommunication();
+        wlanHandler.startCommunication();
+
+        wlanHandler.setTime(time);
+
+        wlanHandler.stopCommunication();
+        lcdHandler.startCommunication();
+
+        printed_time = time;
+    }
+
+    if(printed_action != action) {
+
+        lcdHandler.DrawText(TextPosition::CENTER_TOP,String(action));
+
+        lcdHandler.stopCommunication();
+        wlanHandler.startCommunication();
+
+        wlanHandler.setAction(action);
+
+        wlanHandler.stopCommunication();
+        lcdHandler.startCommunication();
+
+        printed_action = action;
+    }
 }
 
 void loop() {

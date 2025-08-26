@@ -3,34 +3,59 @@
 WlanHandler::WlanHandler() : wlanSerial_(WLAN_RX, WLAN_TX) 
 {}
 
-void WlanHandler::begin() {
-    wlanSerial_.begin(9600);
-    sendCommand("AT+RST"); // Resetoi ESP
-    delay(2000);
-    connectWifi("", "");
+void WlanHandler::setWifi(const String& ssid, const String& password) {
+    wlanSerial_.println("SET WIFI=" + ssid + "," + password);
 }
 
-void WlanHandler::sendCommand(const String& cmd) {
-    wlanSerial_.println(cmd);
+void WlanHandler::setAction(int action) {
+    wlanSerial_.println("SET ACTION=" + String(action));
 }
 
-String WlanHandler::readResponse() {
-    String response = "";
-    while (wlanSerial_.available()) {
-        response += wlanSerial_.readStringUntil('\n');
-    }
-    return response;
+void WlanHandler::setTime(int time) {
+    wlanSerial_.println("SET TIME=" + String(time));
 }
 
-void WlanHandler::connectWifi(const String& ssid, const String& password) {
-    sendCommand("AT+CWJAP=\"" + ssid + "\",\"" + password + "\"");
+void WlanHandler::setTotalTime(int total) {
+    wlanSerial_.println("SET TOTAL=" + String(total));
+}
+
+void WlanHandler::setSpecial(const String& special) {
+    wlanSerial_.println("SET SPECIAL=" + special);
 }
 
 bool WlanHandler::isConnected() {
-    sendCommand("AT+CWJAP?");
-    String resp = readResponse();
-    bool test = resp.indexOf("No AP") == -1;
-    Serial.print("wlantest:");
+    wlanSerial_.println("STATUS");
+    delay(100);
+    String resp = "";
+    while (wlanSerial_.available()) {
+        resp += wlanSerial_.readStringUntil('\n');
+    }
     Serial.println(resp);
-    return test;
+    return resp.startsWith("CONNECTED");
+}
+
+void WlanHandler::startCommunication() {
+    wlanSerial_.begin(115200);
+    delay(10);
+}
+
+void WlanHandler::stopCommunication() {
+    wlanSerial_.end();
+    delay(10); 
+}
+
+String WlanHandler::getIp() {
+    wlanSerial_.println("STATUS");
+    delay(100);
+    String resp = "";
+    while (wlanSerial_.available()) {
+        resp += wlanSerial_.readStringUntil('\n');
+    }
+    int idx = resp.indexOf("CONNECTED ");
+    if (idx != -1) {
+        String ip = resp.substring(idx + 10 + 7); // 10 = strlen("CONNECTED ")
+        ip.trim();
+        return "x.x"+String(ip);
+    }
+    return "";
 }

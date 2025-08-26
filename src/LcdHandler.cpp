@@ -18,6 +18,16 @@ void LcdHandler::begin() {
   LcdClear();
 }
 
+void LcdHandler::startCommunication() {
+    lcdSerial_.begin(115200);
+    delay(10);
+}
+
+void LcdHandler::stopCommunication() {
+    lcdSerial_.end();
+    delay(10); 
+}
+
 void LcdHandler::UpdateText(int elementId, String txt)
 {
   SendLcdCommand("t"+String(elementId)+".txt=\""+String(txt)+"\"");

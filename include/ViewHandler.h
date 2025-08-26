@@ -11,7 +11,7 @@ class ViewHandler {
     void normalWash();
     void superWash();
     void selectActionView();
-    void wlanState(bool connected);
+    void wlanState(String text = "katkaistu");
     void mainPower();
   private:
     LcdHandler& lcdHandler_;
