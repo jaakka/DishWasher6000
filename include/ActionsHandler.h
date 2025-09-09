@@ -3,6 +3,7 @@
 
 #include "SensorHandler.h"
 #include "RelayHandler.h"
+#include "Memory.h"
 
 enum class ActiveAction {
     noAction,
@@ -19,7 +20,8 @@ public:
     ActionsHandler(SensorHandler& sensors, RelayHandler& relays);
     int addSoap();
     int wash(int wash_time_in_minutes); // Returns remaining time in seconds.
-    int heat(int target_temperature);
+    int heatWarm();
+    int heatHot();
     int fillWater();
     int emptyWater();
     int checkWaterQuality(int target_quality);
@@ -30,6 +32,7 @@ private:
     RelayHandler& relays_;
     int action_time_;
     ActiveAction current_action_;
+    Memory memory_;
     unsigned long last_time;
 };
 

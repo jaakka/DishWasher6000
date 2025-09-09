@@ -10,7 +10,7 @@
 
 RelayHandler relayHandler;
 SensorHandler sensorHandler;
-SafetyHandler safetyHandler(sensorHandler, relayHandler);
+SafetyHandler safetyHandler(relayHandler, sensorHandler);
 ActionsHandler actionsHandler(sensorHandler, relayHandler);
 UserControl userControl;
 LcdHandler lcdHandler;
@@ -41,7 +41,7 @@ void setup() {
     userControl.begin();
     lcdHandler.begin();
     viewHandler.bootView();
-    delay(1000); // Animation time
+    delay(1000); // Intro time
     viewHandler.selectActionView();
 }
 
@@ -121,6 +121,78 @@ void NoProgram() {
     }
 }
 
+
+void ProgramInformationUpdate() {
+
+    if(printed_time != time) {
+
+        if(actionsHandler.currentAction() != ActiveAction::noAction){
+            lcdHandler.DrawText(TextPosition::CENTER_BOTTOM,String(time)+"s");
+        }
+
+        lcdHandler.stopCommunication();
+        wlanHandler.startCommunication();
+
+        wlanHandler.setTime(time);
+
+        wlanHandler.stopCommunication();
+        lcdHandler.startCommunication();
+
+        printed_time = time;
+    }
+
+    if(printed_action != action) {
+
+        if(actionsHandler.currentAction() == ActiveAction::addSoap)
+        {
+            lcdHandler.DrawLargeIcon(LargeIcon::SOAP);
+            lcdHandler.DrawText(TextPosition::CENTER_TOP,"Pesuaine");
+        }
+        else if(actionsHandler.currentAction() == ActiveAction::checkWater)
+        {
+            lcdHandler.DrawLargeIcon(LargeIcon::TIME);
+            lcdHandler.DrawText(TextPosition::CENTER_TOP,"60/95");
+        }
+        else if(actionsHandler.currentAction() == ActiveAction::emptyWater)
+        {
+            lcdHandler.DrawLargeIcon(LargeIcon::STORM);
+            lcdHandler.DrawText(TextPosition::CENTER_TOP,"Poisto");
+        }
+        else if(actionsHandler.currentAction() == ActiveAction::fillWater)
+        {
+            lcdHandler.DrawLargeIcon(LargeIcon::WATER);
+            lcdHandler.DrawText(TextPosition::CENTER_TOP,"Otto");
+        }
+        else if(actionsHandler.currentAction()  == ActiveAction::heat)
+        {
+            lcdHandler.DrawLargeIcon(LargeIcon::FIRE);
+            lcdHandler.DrawText(TextPosition::CENTER_TOP,"23/64");
+        }
+        else if(actionsHandler.currentAction() == ActiveAction::wash)
+        {
+            lcdHandler.DrawLargeIcon(LargeIcon::RESTART);
+            lcdHandler.DrawText(TextPosition::CENTER_TOP,"Pesu");
+        }
+        else if(actionsHandler.currentAction() == ActiveAction::noAction)
+        {
+            lcdHandler.DrawLargeIcon(LargeIcon::HOME);
+            lcdHandler.DrawText(TextPosition::CENTER_TOP,"Valmis");
+            lcdHandler.DrawText(TextPosition::CENTER_BOTTOM,"32m 23s");
+        }
+
+        lcdHandler.stopCommunication();
+        wlanHandler.startCommunication();
+
+        wlanHandler.setAction(static_cast<int>(actionsHandler.currentAction()));
+
+        wlanHandler.stopCommunication();
+        lcdHandler.startCommunication();
+
+        printed_action = action;
+    }
+}
+
+
 void EcoProgram() {
     if(!safetyHandler.safeModeIsActive()) {
         switch (program_step)
@@ -143,15 +215,15 @@ void EcoProgram() {
             break;
 
             case 2:
-                time = actionsHandler.wash(1);
-                action = 3;
+                time = actionsHandler.heatWarm();
+                action = 2;
                 if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
                     program_step++;
                 }
             break;
 
             case 3:
-                time = actionsHandler.emptyWater();
+                time = actionsHandler.wash(1);
                 action = 4;
                 if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
                     program_step++;
@@ -159,7 +231,15 @@ void EcoProgram() {
             break;
 
             case 4:
+                time = actionsHandler.emptyWater();
                 action = 5;
+                if (time == 0 && actionsHandler.currentAction() == ActiveAction::noAction) {
+                    program_step++;
+                }
+            break;
+
+            case 5:
+                action = 6;
                 Serial.println("Eco program ready.");
                 program_step++;
             break;
@@ -174,40 +254,6 @@ void BasicProgram() {
 
 void SuperProgram() {
     
-}
-
-void ProgramInformationUpdate() {
-
-    if(printed_time != time) {
-
-        lcdHandler.DrawText(TextPosition::CENTER_TOP,"test");
-        lcdHandler.DrawText(TextPosition::CENTER_BOTTOM,String(time)+"s");
-
-        lcdHandler.stopCommunication();
-        wlanHandler.startCommunication();
-
-        wlanHandler.setTime(time);
-
-        wlanHandler.stopCommunication();
-        lcdHandler.startCommunication();
-
-        printed_time = time;
-    }
-
-    if(printed_action != action) {
-
-        lcdHandler.DrawText(TextPosition::CENTER_TOP,String(action));
-
-        lcdHandler.stopCommunication();
-        wlanHandler.startCommunication();
-
-        wlanHandler.setAction(action);
-
-        wlanHandler.stopCommunication();
-        lcdHandler.startCommunication();
-
-        printed_action = action;
-    }
 }
 
 void loop() {

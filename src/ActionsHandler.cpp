@@ -130,6 +130,17 @@ int ActionsHandler::emptyWater() {
     return action_time_;
 }
 
+int ActionsHandler::heatHot()
+{
+  
+    return action_time_;
+}
+
+int ActionsHandler::heatWarm()
+{
+  
+    return action_time_;
+}
 
 ActiveAction ActionsHandler::currentAction() { 
     return current_action_; 

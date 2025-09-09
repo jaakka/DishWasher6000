@@ -1,6 +1,6 @@
 #include "SafetyHandler.h"
 
-SafetyHandler::SafetyHandler(SensorHandler& sensors, RelayHandler& relays)
+SafetyHandler::SafetyHandler(RelayHandler& relays, SensorHandler& sensors)
     : sensors_(sensors), relays_(relays) {
         safeModeActive_ = false;
     }
@@ -46,11 +46,9 @@ void SafetyHandler::safetyLoop() {
 }
 
 bool SafetyHandler::errorSavedInMemory() const {
-    // Add later error memory
-    return false;
+    return memory_.load(MemoryPos::errorCode) != 0;
 }
 
 ErrorCode SafetyHandler::readLastRunErrorCode() const {
-    // Add later error memory
-    return ErrorCode::Unknown;    
+    return static_cast<ErrorCode>(memory_.load(MemoryPos::errorCode));
 }

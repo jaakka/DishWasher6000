@@ -3,6 +3,7 @@
 
 #include "SensorHandler.h"
 #include "RelayHandler.h"
+#include "Memory.h"
 
 enum class ErrorCode {
     Unknown,
@@ -13,7 +14,7 @@ enum class ErrorCode {
 
 class SafetyHandler {
 public:
-    SafetyHandler(SensorHandler& sensors, RelayHandler& relays);
+    SafetyHandler(RelayHandler& relays, SensorHandler& sensors);
     void activateSafeMode(ErrorCode reason);
     bool safeModeIsActive() const;
     void safetyLoop();
@@ -22,10 +23,11 @@ public:
     ErrorCode readLastRunErrorCode() const;
 
 private:
-    SensorHandler& sensors_;
     RelayHandler& relays_;
+    SensorHandler& sensors_;
     bool safeModeActive_;
     bool verifySafeMode() const;
+    Memory memory_;
 };
 
 #endif
