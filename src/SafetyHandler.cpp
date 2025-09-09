@@ -6,7 +6,7 @@ SafetyHandler::SafetyHandler(RelayHandler& relays, SensorHandler& sensors)
     }
 
 void SafetyHandler::activateSafeMode(ErrorCode reason) {
-    // Save error code later
+    memory_.save(MemoryPos::errorCode, static_cast<int>(reason),true);
     safeModeActive_ = true;
     relays_.valveOff();
     relays_.pumpOff();

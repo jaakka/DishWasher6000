@@ -31,6 +31,7 @@ private:
     SensorHandler& sensors_;
     RelayHandler& relays_;
     int action_time_;
+    int action_max_time_;
     ActiveAction current_action_;
     Memory memory_;
     unsigned long last_time;
